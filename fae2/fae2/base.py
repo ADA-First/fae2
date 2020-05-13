@@ -44,6 +44,7 @@ print(" APP_DIR: " + APP_DIR)
 with open(join(BASE_DIR, "secrets.json")) as f:
     secrets = json.loads(f.read())
 
+
 def get_secret(setting, secrets=secrets):
     """(Get the secret variable or return explicit exception.)"""
     try:
@@ -51,6 +52,7 @@ def get_secret(setting, secrets=secrets):
     except KeyError:
         error_msg = "Set the {0} enviroment variable".format(setting)
         raise ImproperlyConfigured
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -149,12 +151,7 @@ BOOTSTRAP3 = {
     'include_jquery': True,
 }
 
-DEBUG_APPS = [
-    'django_extensions',
-    'debug_toolbar',
-]
-
-INSTALLED_APPS = [
+INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -180,9 +177,8 @@ INSTALLED_APPS = [
     'websiteResults.apps.WebsiteResultsConfig',
     'websiteResultGroups.apps.WebsiteresultgroupsConfig',
     'stats.apps.StatsConfig',
-    'gtm',
-    'logentry_admin',
-] + DEBUG_APPS
+    'timezone_field',
+)
 
 if SHIBBOLETH_ENABLED:
     MIDDLEWARE = [
@@ -202,9 +198,9 @@ if SHIBBOLETH_ENABLED:
 
     LOGIN_URL = SHIBBOLETH_URL
 
+
 else:
     MIDDLEWARE = [
-        'debug_toolbar.middleware.DebugToolbarMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.common.CommonMiddleware',
         'django.middleware.csrf.CsrfViewMiddleware',
@@ -275,22 +271,12 @@ LOGGING = {
     },
 }
 
-# Tells the debug_toolbar when to display
-INTERNAL_IPS = [
-    '127.0.0.1',
-]
-
-# Analytics implemented via GTM
-# https://pypi.org/project/django-google-tag-manager/
-
-GOOGLE_TAG_ID = get_secret('GOOGLE_TAG_ID')
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Chicago'
 
 USE_I18N = True
 
@@ -300,15 +286,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
+# Great explanation of these settings https://rahmonov.me/posts/django-static-files/
 
 STATIC_URL = '/static/'
-
-STATIC_ROOT = join(APP_DIR, 'fae2/staticroot/')
+STATIC_ROOT = join(BASE_DIR, 'static/')
 
 print('STATIC ROOT: ' + STATIC_ROOT)
 
 STATICFILES_DIRS = (
-    (join(APP_DIR, "fae2/staticfiles/"),
+    join(APP_DIR, "fae2/static"),
 )
 
 LOGIN_REDIRECT_URL = '/'

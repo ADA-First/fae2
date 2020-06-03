@@ -137,6 +137,12 @@ fae2TableUtils.getJSON = function(url, callback) {
         		if (callback) callback(json_array);
       		}
    		}
+
+      // @OVERRIDE 'http://' to 'https://' so XMLHttpRequest doesn't fail.
+      // 2020-06-03
+      if (url.indexOf('http://') !== -1) {
+          url = url.replace('http://','https://');
+      }
  		http_request.open("GET", url, true);
    		http_request.send();
 	};

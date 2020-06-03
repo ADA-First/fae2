@@ -77,6 +77,18 @@ If you want to upgrade all software installed via `apt` (typically good idea, is
 apt-get upgrade
 ```
 
+Let's go ahead and create a (system) user named `fae2`
+```
+adduser fae2pg
+```
+
+Give this user a strong, unique password when prompted...I'm not sure if this user needs to be able to use `sudo` but I'm going to guess it will so the strong password is very important.
+
+Now, let's add that user to the list of "sudoers"
+```
+usermod -aG sudo fae2pg
+```
+
 Check the version of pip `python3 -m pip --version` and make sure it's current (as of May 2020 it's version 20.1.1) and if you need to upgrade use:
 ```
 python3 -m pip install --upgrade pip
@@ -128,7 +140,7 @@ Your shell prompt will now show you a notation, probably in parentheses, to let 
 
 From within the `/opt/fae2` directory:
 ```
-python3 -m pip install -r requirements.txt
+(venv) python -m pip install -r requirements.txt
 ```
 
 ### Configure Apache
@@ -185,7 +197,6 @@ In the file fae2.conf put the following:
 
   RemoteIPHeader X-Client-IP
   RemoteIPInternalProxy 127.0.0.1
-  RemoteIPInternalProxy localhost
 
   # The ServerName directive sets the request scheme, hostname and port that
   # the server uses to identify itself. This is used when creating
@@ -224,7 +235,7 @@ a2enmod remoteip
 Now we will disable the "default" site and enable "fae2" with:
 ```
 a2dissite 000-default
-a2ensite fae2
+a2ensite fae2.example.com
 ```
 
 Make sure that the `remoteip_module` and the `wsgi_module` are listed as enabled when you type (then follow that with a couple other checks):
@@ -265,8 +276,7 @@ server {
     listen 80;
     listen [::]:80;
 
-    #server_name fae2.example.com;
-    server_name compliance.adafirst.test;
+    server_name fae2.example.com;
 
     root /opt/fae2/public_html;
 
@@ -295,19 +305,16 @@ server {
     listen 443 ssl;
     listen [::]:443 ssl;
 
-    #server_name fae2.example.com;
-    server_name compliance.adafirst.test;
+    server_name fae2.example.com;
 
     ssl on;
-    ssl_certificate /etc/ssl/certs/fae2.crt;
-    ssl_certificate_key   /etc/ssl/private/fae2.key;
 
-    # Likely paths for certbot
+    # If using Certbot
     ssl_certificate /etc/letsencrypt/live/fae2/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/fae2/privkey.pem;
-    #ssl_trusted_certificate /etc/letsencrypt/live/fae2/chain.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/fae2/chain.pem;
 
-    root /opt/fae2/public_html
+    root /opt/fae2/public_html;
 
     location /static/ {
         root /opt/fae2/public_html;
@@ -331,7 +338,9 @@ server {
     access_log /var/log/nginx/fae2.access_log main;
     error_log /var/log/nginx/fae2.error_log info;
 }
-sendfile off; # while in development using VirtualBox due to a bug
+    log_format   main '$remote_addr - $remote_user [$time_local]  $status '
+    '"$request" $body_bytes_sent "$http_referer" '
+    '"$http_user_agent" "$http_x_forwarded_for"';
 ```
 
 Create a directory in `/etc/nginx` called `fae2` with the following:
@@ -373,7 +382,45 @@ The contents of `/etc/nginx/fae2/reverse-proxy.conf`
     #proxy_set_header Upgrade $http_upgrade;
 ```
 
+Now, once you have gotten this far you need to create a sybolic link from the configuration you just created in `sites-available` to `sites-enabled` you can do that with:
+```
+ln -s /etc/nginx/sites-available/fae2.example.com.conf /etc/nginx/sites-enabled
+```
 
+Once you have do that check your configuration file syntax with:
+```
+/usr/sbin/nginx -t
+```
+
+If that returns a "file not found" error, try:
+```
+which nginx
+```
+
+and then update the part before the `-t` with the path that `which` reported.
+
+See the official docs for details about [managing Nginx from the command line](https://www.nginx.com/resources/wiki/start/topics/tutorials/commandline/).
+
+At this point, I'm still testing this (as I write) on a local VM provisioned by Vagrant so I don't have an SSL certificate and I don't think I can use Certbot to get one from Let's Encrypt so I commented out the SSL related provisions in my currnet configuration while in testing on a local virtual machine. I also had a few duplicate lines that I need to fix before my testing of the configuration syntax was successful.
+
+Next, I need to double check my Apache set up, I can use the built in `apache2ctl -t` but that only check for syntax errors so it's probably smart to double check the port in `/etc/apache2/ports.conf` and review the settings in `/etc/apache2/sites-available/fae2.conf` for consistency with the settings we just added to Nginx, paying special attention that the port(s) or socket(s) you configured Nginx to `proxy_pass` to are the same as the port(s) or socket(s) that Apache is listening on.
+
+Again, using the built-in commands to manage Apache:
+```
+apache2ctl -M
+apache2ctl -t
+apache2ctl -S
+```
+
+If everything is correct, it's time to restart Apache and start Nginx.
+```
+sudo apache2ctl graceful
+sudo service nginx start
+```
+
+When you do go into production, you will definitely need an SSL Certificate (and to update your configurations, to support) so if you'd like to do that with Certbot, you'll find that below:
+
+-------------------------
 https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx
 Certbot:
 ```
@@ -469,7 +516,8 @@ By having the "user" that both Apache and Nginx run as both be `www-data`, and h
 
 Now, to populate the database tables:
 ```
-python manage.py populate/pop_all.py
+cd populate
+python populate/pop_all.py
 ```
 
 

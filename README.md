@@ -167,16 +167,11 @@ There are a few places that this path needs updated and I often forget to update
 #### Sample Apache 2.4 Config File with Nginx Reverse Proxy
 
 ```
-<VirtualHost 127.0.0.1:8000>
+<VirtualHost 127.0.0.1:8080>
 
-  ServerName  127.0.0.1:8000
-  ServerAlias localhost localhost:8000
+  ServerName  127.0.0.1:8080
+  ServerAlias localhost localhost:8080
   DocumentRoot /opt/fae2/public_html
-  
-  Alias /robots.txt /opt/fae2/public_html/static/robots.txt
-  Alias /humans.txt /opt/fae2/public_html/static/humans.txt
-  Alias /favicon.ico /opt/fae2/public_html/static/favicon.ico
-  Alias /static/ /opt/fae2/public_html/static/
   
   <Directory /opt/fae2/public_html>
     <IfVersion < 2.4>

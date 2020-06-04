@@ -63,7 +63,7 @@ The "secrets.json" file must be created and provides:
 {
     "FILENAME": "secrets.json",
     "PROCESSING_THREADS": [number, typically 4, depending on how much processing power is available],
-    "SITE_URL": "site url with protocol, like https://fae.somedomain.org",
+    "SITE_URL": "site url with protocol, like https://fae2.example.com",
     "SITE_NAME": "[Name that appears in banner of FAE]",
     "DEBUG": false,
     "LOGGER_LEVEL": "INFO",
@@ -96,7 +96,6 @@ The "secrets.json" file must be created and provides:
 
 *Make sure the last 'key : value' pair doesn't have a trailing comma.*
 
-
 ### Apache 2.x configuration notes
 
 If using Ubuntu (or Debian), please read `ubuntu-18-04-conf.md` for distro specific instructions.
@@ -119,8 +118,8 @@ There are a few places that this path needs updated and I often forget to update
 ```
 <VirtualHost *:80 >
 
-  Servername  [fae.somedomain.org]
-  ServerAlias [fae.somedomain.org]
+  Servername  [fae2.example.com]
+  ServerAlias [fae2.example.com]
 
   DocumentRoot /opt/fae2/public_html
   
@@ -183,7 +182,7 @@ There are a few places that this path needs updated and I often forget to update
     </IfVersion>
   </Directory>
 
-  WSGIDaemonProcess fae2 processes=4 python-home=/opt/fae2/venv python-path=/opt/fae2/fae2/fae2 lang='en_US.UTF-8' locale='en_US.UTF-8' queue-timeout=45 socket-timeout=60 connect-timeout=15 request-timeout=600 startup-timeout=15 deadlock-timeout=60 graceful-timeout=15 restart-interval=86400 shutdown-timeout=5 maximum-requests=10000 display-name=%{GROUP}
+  WSGIDaemonProcess fae2 processes=4 python-home=/opt/fae2/venv python-path=/opt/fae2:/opt/fae2/fae2/fae2 lang='en_US.UTF-8' locale='en_US.UTF-8' queue-timeout=45 socket-timeout=60 connect-timeout=30 request-timeout=600 startup-timeout=30 deadlock-timeout=60 graceful-timeout=15 restart-interval=86400 shutdown-timeout=15 maximum-requests=10000 display-name=%{GROUP}
 
   WSGIScriptAlias / /opt/fae2/fae2/fae2/wsgi.py process-group=fae2
 
@@ -206,7 +205,6 @@ There are a few places that this path needs updated and I often forget to update
 
   RemoteIPHeader X-Client-IP
   RemoteIPInternalProxy 127.0.0.1
-  RemoteIPInternalProxy localhost
 
   # The ServerName directive sets the request scheme, hostname and port that
   # the server uses to identify itself. This is used when creating

@@ -290,6 +290,16 @@ INTERNAL_IPS = [
     '127.0.0.1',
 ]
 
+# This HTTP Header informs Django that we do indeed have HTTPS enabled on on reverse proxy
+# Make sure to change the SITE_URL to be prefixed by https:// in `secrets.json`
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
+USE_X_FORWARDED_HOST = True
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = 'Strict'
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'Strict'
+
 # Analytics implemented via GTM
 # https://pypi.org/project/django-google-tag-manager/
 

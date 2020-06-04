@@ -333,7 +333,8 @@ LOGIN_REDIRECT_URL = '/'
 
 FAKE_BOT_DETECTOR_ENABLED = True
 
-FAKE_BOT_RESPONSE_CODE = 403
+#FAKE_BOT_RESPONSE_CODE = 403
+FAKE_BOT_RESPONSE_CODE = 444
 
 ## Pro tip: if you are running django behind an NGINX proxy,
 ## you can set FAKE_BOT_RESPONSE_CODE to 444 to have NGINX close the connection

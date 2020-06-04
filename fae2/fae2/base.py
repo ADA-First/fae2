@@ -329,6 +329,7 @@ print('STATIC ROOT: ' + STATIC_ROOT)
 
 STATICFILES_DIRS = [
     '/opt/fae2/public_html/staticfiles',
+    '/opt/fae2/fae2/static',
 ]
 
 LOGIN_REDIRECT_URL = '/'

@@ -65,8 +65,8 @@
                     <li><a href="{% url 'report_issues'   %}">Create Issue</a></li>
                     {% endcomment %}
                     <li role="separator" class="divider"></li>
-                    <li><a href="https://accessibility.us.org/webpi/">ADA First Accessibility Widget</a></li>
-                    <li><a href="https://accessibility.us.org/webpi/">WebPI Accessibility Bookmarklet</a></li>
+                    <li><a href="https://accessibility.us.org/webpi/">ADA First Accessibility Widget <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span><span class="sr-only">external link (opens in new window)</span></a></li>
+                    <li><a href="https://accessibility.us.org/webpi/">WebPI Accessibility Bookmarklet <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span><span class="sr-only">external link (opens in new window)</span></a></li>
                     <li role="separator" class="divider"></li>
                     {% if payment_enabled or shibboleth.enabled %}
                     <li><a href="{% url 'subscription'   %}">Subscription Options</a></li>
@@ -298,7 +298,7 @@
             {% comment %}
             <li><a href="{% url 'versions'   %}" title="Additional Navigation">Sitemap</a></li>
             {% endcomment %}
-            <li><a href="https://www.adafirst.org/">ADA First</a></li>
+            <li><a href="https://www.adafirst.org/">ADA First <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span><span class="sr-only">external link (opens in new window)</span></a></li>
           </ul>
         </div>
       </nav>

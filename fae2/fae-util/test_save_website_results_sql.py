@@ -38,8 +38,9 @@ import django
 
 sys.path.append(os.path.abspath('..'))
 
-os.environ["DJANGO_SETTINGS_MODULE"] = "fae2.settings"
 #os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fae2.settings')
+os.environ['DJANGO_SETTINGS_MODULE'] = 'fae2.settings'
+
 django.setup()
 
 from save_website_results_sql import saveResultsToDjango

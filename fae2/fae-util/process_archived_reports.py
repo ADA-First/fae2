@@ -50,7 +50,8 @@ sys.path.append(fae2_path)
 
 # print("PATH="+ str(sys.path))
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fae2.settings')
+#os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fae2.settings')
+os.environ['DJANGO_SETTINGS_MODULE'] = 'fae2.settings'
 django.setup()
 
 from django.conf import settings

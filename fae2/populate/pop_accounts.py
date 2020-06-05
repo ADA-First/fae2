@@ -32,7 +32,13 @@ path, filename = os.path.split(fp)
 fae2_path = path.split('/populate')[0]
 sys.path.append(fae2_path)
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fae2.settings')
+#os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fae2.settings')
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(BASE_DIR)
+# This is the setting recommended when running mod_wsgi in daemon mode (which we are)
+os.environ['DJANGO_SETTINGS_MODULE'] = 'fae2.settings'
+
 from django.conf import settings
 
 django.setup()

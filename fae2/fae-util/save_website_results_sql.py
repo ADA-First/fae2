@@ -46,7 +46,8 @@ import urllib
 
 from django.utils.encoding  import iri_to_uri
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fae2.settings')
+#os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fae2.settings')
+os.environ['DJANGO_SETTINGS_MODULE'] = 'fae2.settings'
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()

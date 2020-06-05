@@ -40,7 +40,9 @@ import urllib
 
 from django.utils.encoding  import iri_to_uri
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fae20.settings')
+#os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fae20.settings')
+os.environ['DJANGO_SETTINGS_MODULE'] = 'fae2.settings'
+
 from django.conf import settings
 
 from django.core.exceptions import ObjectDoesNotExist

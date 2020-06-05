@@ -2,14 +2,16 @@
 {% load staticfiles i18n %}
 
 {% block title %}
-  Run FAE
+  Run <abbr aria-label="Functional Accessibility Evaluator">FAE</abbr>
 {% endblock %}
 
 {% block content %}
 
-<p style="margin-top: 1em;">The Functional Accessibility Evaluator (FAE) evaluates a website or a single web page based on the W3C <a href="https://www.w3.org/tr/wcag/">Web Content Accessibility Guidelines <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span><span class="sr-only">external link (opens in new window)</span></a> (WCAG) 2.0 Level A and AA requirements.</p>
+<p class="lead" style="margin-top: 1em;">The Functional Accessibility Evaluator (FAE) evaluates a website or a single web page based on the <abbr aria-label="World Wide Web Consortium">W3C</abbr> <a href="https://www.w3.org/tr/wcag/">Web Content Accessibility Guidelines <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span><span class="sr-only">external link (opens in new window)</span></a> (WCAG) 2.0 Level A and AA requirements.</p>
+<p>FAE runs a browser emulator that runs automated checks for known accessibility issues (violations of WCAG standards. FAE can check and monitor the compliance of multiple pages (crawl a website) automatically by following links from a starting page <a href="#check-website">skip to #check-website</a> (requires login). Or it can audit a single web page <a href="#check-url">skip to #check-url</a> (for users that don't want to login).</p>
+<p>Compliance with <b>WCAG 2 Level AA</b> is required by most accessibility laws (Section 508, the European Accessibility Act, the EU Web Accessibility Directive, the Equality Act of 2010 in the UK, etc.) and has been used as the <i lang="la">de facto</i> standard by U.S. Federal Courts when determining compliance with the <abbr title="Americans with Disabilites Act" aria-label="Americans with Disabilites Act">ADA</abbr>, the <abbr title="Fair Housing Act" aria-label="Fair Housing Act">FHA</abbr>, <abbr title="Affordable Care Act" aria-label="Affordable Care Act">ACA</abbr> and similar laws requiring digital accessibility of websites and applications.</p>
 
-<h2>Website Report</h2>
+<h2 id="check-website">Website Report</h2>
 
 <p>You must have a user account to evaluate a website.</p>
 
@@ -25,7 +27,7 @@
     <li>Reports are saved in an Archived Reports list</li>
 </ul>
 
-<h2>Single Page Report</h2>
+<h2 id="check-url">Single Page Report</h2>
 
 <p>Use the following form or <a href="https://addons.mozilla.org/en-US/firefox/addon/ainspector-wcag/">AInspector WCAG <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span><span class="sr-only">external link (opens in new window)</span></a> to evaluate a single web page without creating an account:</p>
 
@@ -47,7 +49,9 @@
 
 </form>
 
-{% include "accounts/support_information.html" %}
+<p class="bg-danger"><strong><span class="text-uppercase">Warning</span>: No automated tool can detect all known acessibility issues.</strong> In <a href="https://alphagov.github.io/accessibility-tool-audit/">testing of automated accessibility auditing tools by the UK Government's Accessibility Team <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span><span class="sr-only">external link (opens in new window)</span></a>, FAE was found to detect more barriers and potential barriers than any other tool tested but even then it only detected 50%. Additionaly, there can be multiple ways to address barriers that this tool may not be able to detect. FAE should be used in conjunction with human and manual auditing and remediation efforts, not as a substitute for them.</p>
+
+{% comment %}{% include "accounts/support_information.html" %}{% endcomment %}
 
 {% endblock %}
 

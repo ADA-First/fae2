@@ -105,10 +105,10 @@ nav h2 {
     font-size: 125%;
 }
 .nav > li > a {
-    padding: 0.25em;
+ /* padding: 0.25em;
     padding-left: 0.5em;
     padding-top: 0.25em;
-    padding-bottom: 0.25em;
+    padding-bottom: 0.25em; */
     font-size: 112%;
 }
 .navbar-inverse .navbar-nav > li > a {
@@ -117,9 +117,9 @@ nav h2 {
     color: #dddddd;
 }
 .navbar-inverse .navbar-header a {
-     color: #dddddd;
-     position: relative;
-     top: -0.6em;
+    color: #dddddd;
+    position: relative;
+ /* top: -0.6em; */
 }
 .navbar-inverse .navbar-nav > li > a:focus,
 .navbar-inverse .navbar-header a:focus {
@@ -198,6 +198,7 @@ button[aria-controls="top-navbar"]:hover {
 #top-navbar-container {
     padding-bottom: 0;
     margin-bottom: 0.5em;
+    border-radius: 0;
 }
 main ul {
     margin: 0;
